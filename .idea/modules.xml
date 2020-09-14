@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/go_grpc.iml" filepath="$PROJECT_DIR$/.idea/go_grpc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/go_rpc.iml" filepath="$PROJECT_DIR$/.idea/go_rpc.iml" />
     </modules>
   </component>
 </project>
