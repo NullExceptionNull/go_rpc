@@ -1,6 +1,8 @@
 package common
 
-import "go.etcd.io/etcd/clientv3"
+import (
+	"go.etcd.io/etcd/clientv3"
+)
 
 type Service struct {
 	Name  string  `json:"name"`
@@ -9,9 +11,12 @@ type Service struct {
 
 type Node struct {
 	Name          string           `json:"name"` //这里的节点名称和service名称保持一致
-	Id            clientv3.LeaseID `json:"id"`
+	Id            string           `json:"id"`
 	Ip            string           `json:"ip"`
 	Port          int              `json:"port"`
 	Weight        int              `json:"weight"`
 	LastHeartBeat int64            `json:"last_heart_beat"`
+	Healthy       bool             `json:"healthy"`
+	Key           string           `json:"key"`
+	LeaseId       clientv3.LeaseID `json:"lease_id"`
 }

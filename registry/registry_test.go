@@ -1,19 +1,35 @@
 package registry
 
 import (
-	"fmt"
+	"go_grpc/common"
+	"go_grpc/etcd"
+	"sync"
 	"testing"
-	"time"
 )
 
-func TestTime(t *testing.T) {
+func TestRegis(t *testing.T) {
 
-	unix1 := time.Now().Unix()
+	var wg sync.WaitGroup
 
-	time.Sleep(5 * time.Second)
+	wg.Add(1)
 
-	unix2 := time.Now().Unix()
+	//初始化etcd
+	etcd.Init()
+	//
+	node := common.Node{
+		Name:    "activity",
+		Ip:      "127.0.0.1",
+		Port:    8080,
+		Weight:  100,
+		Healthy: true,
+	}
 
-	fmt.Println(unix2 - unix1)
+	var registry = new(EtcdRegistry)
+
+	registry.Init()
+
+	registry.Register(&node)
+
+	wg.Wait()
 
 }
