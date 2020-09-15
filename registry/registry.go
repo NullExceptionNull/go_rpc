@@ -49,6 +49,30 @@ func (e *EtcdRegistry) Register(node *common.Node) {
 	e.NodeChan <- node
 }
 
+func (e *EtcdRegistry) UnRegister(node *common.Node) {
+	//下线逻辑
+	e.deleteFromEtcd(node)
+
+	e.deleteFromMemory(node)
+}
+
+func (e *EtcdRegistry) getAllServiceName(serviceName string) *common.Service {
+	return e.AllServiceMap[serviceName]
+}
+
+func (e *EtcdRegistry) heartBeat(node *common.Node) {
+	//首先看这个服务在不在 如果存在就续约 如果不存在就更新
+	_, ok := e.AllServiceMap[node.Name]
+
+	if !ok {
+		e.Register(node)
+		return
+	}
+	node.LastHeartBeat = time.Now().Unix()
+	node.Healthy = true
+	e.update(node)
+}
+
 func (e *EtcdRegistry) put(node *common.Node) {
 	resp, err := e.Client.Grant(context.TODO(), LeaseTime)
 	if err != nil {
